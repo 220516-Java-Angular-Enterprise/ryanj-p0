@@ -77,7 +77,7 @@ public class StartMenu implements AdminMenu.IMenu {
             password = scan.nextLine();
             try{
                 if (userService.isValidEmail(email) && userService.isValidPassword(password))
-                    System.out.println("\nWhat would you like to upgrade on your MTB today?");
+                    System.out.println("\nNeed new parts?");
                 break;
             }catch (InvalidUserException e){
                 System.out.println("Invalid Credentials.");
@@ -125,6 +125,7 @@ public class StartMenu implements AdminMenu.IMenu {
 
         System.out.println("\nAccount Created!");
         User user = new User(UUID.randomUUID().toString(), email, password, "DEFAULT");
+        userService.register(user);
         System.out.println(user);
         new MainMenu(user).start();
     }

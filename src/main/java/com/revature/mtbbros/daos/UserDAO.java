@@ -14,10 +14,12 @@ public class UserDAO implements CrudDAO<User> {
     public void save(User obj) {
         try {
             File file = new File(path);
-            FileWriter fw = new FileWriter(file);
+            FileWriter fw = new FileWriter(file, true);
+            fw.write(obj.toFileString());
+            fw.close();
 
         } catch (IOException e) {
-            throw new RuntimeException("An error occurred when writing to a file.");
+            throw new RuntimeException("An error occurred while writing to a file.");
         }
     }
 

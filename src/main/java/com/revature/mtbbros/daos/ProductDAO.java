@@ -4,7 +4,7 @@ import com.revature.mtbbros.models.Product;
 
 import java.util.List;
 
-public class ProductsDAO implements CrudDAO<Product> {
+public class ProductDAO implements CrudDAO<Product> {
 
     @Override
     public void save(Product obj) {

@@ -1,9 +1,22 @@
 package com.revature.mtbbros.services;
 
+import com.revature.mtbbros.daos.UserDAO;
 import com.revature.mtbbros.models.User;
 import com.revature.mtbbros.util.custom_exception.InvalidUserException;
 
 public class UserService {
+    private final UserDAO userDAO;
+
+    public UserService(UserDAO userDAO) {
+        this.userDAO=userDAO;
+    }
+    public User login(String email, String password){
+        return null;
+    }
+
+    public void register(User user) {
+        userDAO.save(user);
+    }
     public boolean isValidEmail(String email){
     if(email.matches("^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")) return true;
 
