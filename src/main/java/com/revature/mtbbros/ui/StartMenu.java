@@ -1,12 +1,12 @@
-package com.revature.mtbbro.util;
+package com.revature.mtbbro.ui;
 
-import com.revature.mtbbro.models.User;
 import com.revature.mtbbro.services.UserService;
+import com.revature.mtbbro.ui.AdminMenu;
 
 import java.util.Scanner;
-import java.util.UUID;
 
-public class StartMenu implements IMenu {
+public class StartMenu implements AdminMenu.IMenu {
+    // Dependency injection
     private final UserService userService;
 
     public StartMenu(UserService userService) {
@@ -34,7 +34,7 @@ public class StartMenu implements IMenu {
                     case "x":
                         break exit;
                     default:
-                        System.out.println("Invalid option.");
+                        System.out.println("Invalid option. Try again.");
                         break;
                 }
 
@@ -49,8 +49,8 @@ public class StartMenu implements IMenu {
     private void displayWelcomeMsg() {
 
         System.out.println("\nWelcome to MTB-Bros!");
-        System.out.println("[1] Check-in");
-        System.out.println("[2] Register");
+        System.out.println("[1] Sign-in");
+        System.out.println("[2] Create Account");
         System.out.println("[X] Exit");
 
         System.out.print("\nEnter: ");
@@ -61,17 +61,34 @@ public class StartMenu implements IMenu {
     }
 
     private void signup() {
+        String email;
+        String password;
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("\nCome ride with us!");
+        System.out.println("\nCreate your Account...");
 
         while (true) {
             System.out.print("\nEmail: ");
-            String email = scan.nextLine();
+            email = scan.nextLine();
             if (userService.isValidEmail(email)) {
-                System.out.println("Good email!");
+                System.out.println("Email Accepted!");
                 break;
-            } else System.out.println("Invalid email address. Please try again.");
+            } else System.out.println("Invalid email address. Please enter a valid email address.");
         }
+
+        while (true) {
+            System.out.print("\nCreate Password: ");
+            password = scan.nextLine();
+
+            if (userService.isValidPassword(password)){
+                System.out.print("Confirm Password: ");
+                String confirmPW = scan.nextLine();
+                if(password.equals(confirmPW)) break;
+                else System.out.println("Passwords do not match. Please type-in a password again.");
+            }
+            else System.out.println("Password must be eight characters, at least one letter, one number and one special character.");
+        }
+
+        System.out.println("\nAccount Created!");
     }
 }
