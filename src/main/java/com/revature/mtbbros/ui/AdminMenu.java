@@ -1,4 +1,4 @@
-package com.revature.mtbbro.ui;
+package com.revature.mtbbros.ui;
 
 public class AdminMenu {
     public static interface IMenu {

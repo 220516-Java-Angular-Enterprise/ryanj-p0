@@ -1,6 +1,6 @@
 package com.revature.mtbbros.models;
 
-public class Products {
+public class Product {
     private String id;
     private String brand;
     private String name;
@@ -8,11 +8,11 @@ public class Products {
     private String price;
     private String category;
 
-    public Restaurant() {
-        super()
+    public Product() {
+        super();
     }
 
-    public Products(String id, String brand, String name, String desc, String price, String category) {
+    public Product(String id, String brand, String name, String desc, String price, String category) {
         this.id = id;
         this.brand = brand;
         this.name = name;
@@ -71,7 +71,7 @@ public class Products {
 
     @Override
     public String toString() {
-        return "Products{" +
+        return "Product{" +
                 "id='" + id + '\'' +
                 ", brand='" + brand + '\'' +
                 ", name='" + name + '\'' +
