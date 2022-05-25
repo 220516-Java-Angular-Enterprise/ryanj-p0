@@ -64,7 +64,7 @@ public User(String id, String email, String password, String role){
     public String toString() {
         return "User{" +
                 "id='" + id + '\'' +
-                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 '}';
     }

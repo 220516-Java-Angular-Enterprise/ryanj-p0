@@ -1,2 +1,8 @@
 b0b31854-0c35-4fa1-a349-664234529048:ryan@email.com:Asdf123!:DEFAULT
 43997cbc-e885-406e-a920-9bae717df83e:marty@email.com:Asdf123!:DEFAULT
+4729946f-dac2-4ab4-a44c-3f3b36c6b685:biff@email.com:Asdf!234:DEFAULT
+6a0f9c6b-8bf7-49b0-ad44-9bd2ae78ad07:docbrown@email.com:Asdf!234:DEFAULT
+25958a66-c414-4601-b7bf-3982a08791dd:clar@email.com:Asdf!234:DEFAULT
+1418facf-c324-4bf9-a8cb-521aed4ec3af:clark@email.com:Asdf!234:DEFAULT
+9da066ba-f8b7-4df2-a50e-a11ebe8a76d6:trump@maga.com:Maga!234:DEFAULT
+e1b6d9e4-9f18-4bac-b58d-884e21b4f37e:spider@email.com:Asdf!234:DEFAULT
