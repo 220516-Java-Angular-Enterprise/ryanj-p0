@@ -4,6 +4,8 @@ import com.revature.mtbbros.daos.UserDAO;
 import com.revature.mtbbros.models.User;
 import com.revature.mtbbros.util.custom_exception.InvalidUserException;
 
+import java.util.List;
+
 public class UserService {
     private final UserDAO userDAO;
 
@@ -29,6 +31,13 @@ public class UserService {
         throw new InvalidUserException("Password must be eight characters, at least one letter, one number and one special character.");
     }
 
+    public boolean isNotDuplicateEmail(String email){
+        List<String> emails = userDAO.getAllEmails();
 
+        if(emails.contains(email)) throw new InvalidUserException("Email already exists. Kindly provide another email.");
+//        if(emails.contains(email)) throw new InvalidUserException("Email already exists. Forgot password.");
+
+        return true;
+    }
 
 }

@@ -98,7 +98,7 @@ public class StartMenu implements AdminMenu.IMenu {
             email = scan.nextLine();
 
             try{
-                if (userService.isValidEmail(email)) break;
+                if (userService.isValidEmail(email) && userService.isNotDuplicateEmail(email)) break;
             }catch (InvalidUserException e){
                 System.out.println(e.getMessage());
 //                e.printStackTrace();
