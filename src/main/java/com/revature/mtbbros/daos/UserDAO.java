@@ -6,113 +6,48 @@ import com.revature.mtbbros.util.database.DatabaseConnection;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements CrudDAO<User> {
     Connection con = DatabaseConnection.getCon();
-    String path = "src/main/resources/database/user.txt";
-
-//    String path = "src/main/resources/database/user.txt";
-//    public void save(User obj) {
-//        try {
-//            File file = new File(path);
-//            FileWriter fw = new FileWriter(file, true);
-//            fw.write(obj.toFileString());
-//            fw.close();
-//
-//        } catch (IOException e) {
-//            throw new RuntimeException("An error occurred while writing to a file.");
-//        }
-//    }
 
     public void save(User obj) {
-        // dummy DB
-//        try {
-//            PreparedStatement ps = con.prepareStatement("INSERT INTO users (id, username, password, role) VALUES (?, ?, ?, ?)");
-//            ps.setString(1, obj.getId());
-//            ps.setString(2, obj.getEmail());
-//            ps.setString(3, obj.getPassword());
-//            ps.setString(4, obj.getRole());
-//            ps.executeUpdate();
-//        } catch (SQLException e) {
-//            throw new RuntimeException("An error occurred when trying to save to the database.");
-//        }
-
         // postgres db
         try {
             PreparedStatement ps = con.prepareStatement("INSERT INTO users (id, email, password, role) VALUES (?,?,?,?)");
-            ps.setString(1,obj.getId());
-            ps.setString(2,obj.getEmail());
-            ps.setString(3,obj.getPassword());
-            ps.setString(4,obj.getRole());
+            ps.setString(1, obj.getId());
+            ps.setString(2, obj.getEmail());
+            ps.setString(3, obj.getPassword());
+            ps.setString(4, obj.getRole());
             ps.executeUpdate();
-
         } catch (SQLException e) {
             throw new RuntimeException("An error occurred when trying to save to the database.");
         }
     }
 
     public List<String> getAllEmails() {
-//        return new ArrayList<String>();
         List<String> emails = new ArrayList();
 
         try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
+            PreparedStatement ps = con.prepareStatement("SELECT email FROM users");
+            ResultSet rs = ps.executeQuery();
 
-            String userData;
-            while ((userData = br.readLine()) != null) {
-                String[] userArr = userData.split(":");
-                String email = userArr[1];
+            while (rs.next()) {
+//                emails.add(rs.getString("email"));
 
+                // or
+                String email = rs.getString("email");
                 emails.add(email);
             }
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("An error occured while trying to access the file.");
-        } catch (IOException e) {
-            throw new RuntimeException("An error occurred when trying to access the file information.");
+        } catch (SQLException e) {
+            throw new RuntimeException("An error occurred when trying to get data from the database.");
         }
         return emails;
     }
 
-    public User getUserByEmailAndPassword(String em, String pw) {
-        User user = new User();
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
-
-            String userData;
-            while ((userData = br.readLine()) != null) {
-                String[] userArr = userData.split(":");
-//                String id = userArr[0];
-                String email = userArr[1];
-                String password = userArr[2];
-//                String role = userArr[3];
-
-//                if(email.equals(emailAd) && password.equals(password)){
-//                    user.setId(id);
-//                    user.setEmail(email);
-//                    user.setRole(role);
-//                    user.setPassword(password);
-//                }else break;
-
-                // Separate email and password validation
-                if (em.equals(email)) {
-                    user.setEmail(email);
-                    if (pw.equals(password)) user.setPassword(password);
-                    else break; // password is incorrect;
-                } else if (pw.equals(password)) user.setPassword(password); // password is correct
-            }
-
-        } catch (FileNotFoundException e) {
-            throw new RuntimeException("An error occurred while trying to access the file.");
-        } catch (IOException e) {
-            throw new RuntimeException("An error occurred when trying to access the file information.");
-        }
-        return user;
-    }
 
     @Override
     public void update(User obj) {
@@ -131,7 +66,25 @@ public class UserDAO implements CrudDAO<User> {
 
     @Override
     public List<User> getAll() {
-        return null;
+        List<User> users = new ArrayList<>();
+
+        try {
+            PreparedStatement ps = con.prepareStatement("SELECT * FROM users");
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                User user = new User();
+                user.setId(rs.getString("id"));
+                user.setEmail(rs.getString("email"));
+                user.setPassword(rs.getString("password"));
+                user.setRole(rs.getString("id"));
+
+                users.add(user);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("An error occurred when trying to get data from the database.");
+        }
+        return users;
     }
+
 
 }

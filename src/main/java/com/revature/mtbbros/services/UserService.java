@@ -4,6 +4,7 @@ import com.revature.mtbbros.daos.UserDAO;
 import com.revature.mtbbros.models.User;
 import com.revature.mtbbros.util.custom_exception.InvalidUserException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserService {
@@ -14,9 +15,20 @@ public class UserService {
     }
 
     public User login(String email, String password) {
-        User user = userDAO.getUserByEmailAndPassword(email, password);
-        if (isValidCredentials(user)) return user;
-        return null;
+        List<User> users = new ArrayList<>();
+        users = userDAO.getAll();
+        User user = new User();
+
+        for (User u : users) {
+            if (u.getEmail().equals(email) && u.getPassword().equals(password)) {
+                user.setId(u.getId());
+                user.setEmail(u.getEmail());
+                user.setPassword(u.getPassword());
+                user.setRole(u.getRole());
+                break;
+            }
+        }
+        return isValidCredentials(user);
     }
 
     public void register(User user) {
@@ -46,14 +58,15 @@ public class UserService {
         return true;
     }
 
-    private boolean isValidCredentials(User user) {
-        if(user.getEmail() == null && user.getPassword() == null) throw new InvalidUserException("Incorrect credentials. Please try again.");
+    private User isValidCredentials(User user) {
+        if (user.getEmail() == null && user.getPassword() == null)
+            throw new InvalidUserException("Incorrect credentials. Please try again.");
 
-        // for separate email and pw validation
+            // for separate email and pw validation
 //        if(user.getEmail() == null && user.getPassword() == null) throw new InvalidUserException("Incorrect username and password.");
 //        else if (user.getEmail() == null) throw new InvalidUserException("Incorrect email");
 //        else if (user.getPassword() == null) throw new InvalidUserException("Incorrect password");
 
-       else return true;
+        else return user;
     }
 }
