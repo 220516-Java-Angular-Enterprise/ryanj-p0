@@ -120,7 +120,7 @@ public class StartMenu implements IMenu {
             password = scan.nextLine();
             try {
                 user = userService.login(email, password);
-                new MainMenu(user).start();
+//                new MainMenu(user).start();
 
                 if(user.getRole().equals("ADMIN")) new AdminMenu().start();
                 else new MainMenu(user).start();
