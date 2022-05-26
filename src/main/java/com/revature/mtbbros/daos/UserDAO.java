@@ -1,29 +1,47 @@
 package com.revature.mtbbros.daos;
 
 import com.revature.mtbbros.models.User;
+import com.revature.mtbbros.util.database.DatabaseConnection;
 
 import java.io.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements CrudDAO<User> {
-    String path = "src/main/resources/database/user.txt";
+        String path = "src/main/resources/database/user.txt";
+    Connection con = DatabaseConnection.getCon();
 
-    @Override
+//    public void save(User obj) {
+//        try {
+//            File file = new File(path);
+//            FileWriter fw = new FileWriter(file, true);
+//            fw.write(obj.toFileString());
+//            fw.close();
+//
+//        } catch (IOException e) {
+//            throw new RuntimeException("An error occurred while writing to a file.");
+//        }
+//    }
+
     public void save(User obj) {
         try {
-            File file = new File(path);
-            FileWriter fw = new FileWriter(file, true);
-            fw.write(obj.toFileString());
-            fw.close();
-
-        } catch (IOException e) {
-            throw new RuntimeException("An error occurred while writing to a file.");
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users (id, username, password, role) VALUES (?, ?, ?, ?)");
+            ps.setString(1, obj.getId());
+            ps.setString(2, obj.getEmail());
+            ps.setString(3, obj.getPassword());
+            ps.setString(4, obj.getRole());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("An error occurred when trying to save to the database.");
         }
     }
 
     public List<String> getAllEmails() {
-        List<String> emails = new ArrayList<>();
+//        return new ArrayList<String>();
+        List<String> emails = new ArrayList();
 
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
@@ -51,7 +69,7 @@ public class UserDAO implements CrudDAO<User> {
             BufferedReader br = new BufferedReader(new FileReader(path));
 
             String userData;
-            while ((userData  = br.readLine()) != null) {
+            while ((userData = br.readLine()) != null) {
                 String[] userArr = userData.split(":");
 //                String id = userArr[0];
                 String email = userArr[1];

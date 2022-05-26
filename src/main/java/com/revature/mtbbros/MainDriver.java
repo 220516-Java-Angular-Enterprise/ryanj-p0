@@ -3,6 +3,7 @@ package com.revature.mtbbros;
 import com.revature.mtbbros.daos.UserDAO;
 import com.revature.mtbbros.services.UserService;
 import com.revature.mtbbros.ui.StartMenu;
+import com.revature.mtbbros.util.database.DatabaseConnection;
 
 public class MainDriver {
     public static void main(String[] args) {
@@ -12,5 +13,9 @@ public class MainDriver {
 
         // same as creating a "userService" variable
 //        new StartMenu(new UserService(new UserDAO())).start();
+
+        // Test Database connection
+        System.out.println(DatabaseConnection.getCon());
+        System.out.println("You're Connected!");
     }
 }
