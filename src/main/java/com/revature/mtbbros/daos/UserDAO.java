@@ -11,9 +11,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAO implements CrudDAO<User> {
-        String path = "src/main/resources/database/user.txt";
     Connection con = DatabaseConnection.getCon();
+    String path = "src/main/resources/database/user.txt";
 
+//    String path = "src/main/resources/database/user.txt";
 //    public void save(User obj) {
 //        try {
 //            File file = new File(path);
@@ -27,13 +28,27 @@ public class UserDAO implements CrudDAO<User> {
 //    }
 
     public void save(User obj) {
+        // dummy DB
+//        try {
+//            PreparedStatement ps = con.prepareStatement("INSERT INTO users (id, username, password, role) VALUES (?, ?, ?, ?)");
+//            ps.setString(1, obj.getId());
+//            ps.setString(2, obj.getEmail());
+//            ps.setString(3, obj.getPassword());
+//            ps.setString(4, obj.getRole());
+//            ps.executeUpdate();
+//        } catch (SQLException e) {
+//            throw new RuntimeException("An error occurred when trying to save to the database.");
+//        }
+
+        // postgres db
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO users (id, username, password, role) VALUES (?, ?, ?, ?)");
-            ps.setString(1, obj.getId());
-            ps.setString(2, obj.getEmail());
-            ps.setString(3, obj.getPassword());
-            ps.setString(4, obj.getRole());
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users (id, email, password, role) VALUES (?,?,?,?)");
+            ps.setString(1,obj.getId());
+            ps.setString(2,obj.getEmail());
+            ps.setString(3,obj.getPassword());
+            ps.setString(4,obj.getRole());
             ps.executeUpdate();
+
         } catch (SQLException e) {
             throw new RuntimeException("An error occurred when trying to save to the database.");
         }

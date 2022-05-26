@@ -16,6 +16,6 @@ public class MainDriver {
 
         // Test Database connection
         System.out.println(DatabaseConnection.getCon());
-        System.out.println("You're Connected!");
+        System.out.println("You're Connected to Postgres!");
     }
 }
