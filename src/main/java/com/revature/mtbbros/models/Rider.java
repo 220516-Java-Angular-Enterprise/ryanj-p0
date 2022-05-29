@@ -1,7 +1,7 @@
 package com.revature.mtbbros.models;
 
 public class User {
-    private String id;
+    private String user_id;
     private String email;
     private String password;
     private String username;
@@ -10,19 +10,19 @@ public class User {
     public User() {
         super();
     }
-public User(String id, String email, String password, String role){
-    this.id = id;
+public User(String user_id, String email, String password, String role){
+    this.user_id = user_id;
     this.email = email;
     this.password = password;
     this.role = role;
 }
 
-    public String getId() {
-        return id;
+    public String getUserId() {
+        return user_id;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setUserId(String user_id) {
+        this.user_id = user_id;
     }
 
     public String getEmail() {
@@ -58,12 +58,12 @@ public User(String id, String email, String password, String role){
     }
 
     public String toFileString() {
-        return id+":"+email+":"+password+":"+role+"\n";
+        return user_id+":"+email+":"+password+":"+role+"\n";
     }
 
     public String toString() {
         return "User{" +
-                "id='" + id + '\'' +
+                "user_id='" + user_id + '\'' +
                 ", email='" + email + '\'' +
                 ", role='" + role + '\'' +
                 '}';

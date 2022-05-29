@@ -17,8 +17,8 @@ public class UserDAO implements CrudDAO<User> {
     public void save(User obj) {
         // postgres db
         try {
-            PreparedStatement ps = con.prepareStatement("INSERT INTO users (id, email, password, role) VALUES (?,?,?,?)");
-            ps.setString(1, obj.getId());
+            PreparedStatement ps = con.prepareStatement("INSERT INTO users (user_id, email, password, role) VALUES (?,?,?,?)");
+            ps.setString(1, obj.getUserId());
             ps.setString(2, obj.getEmail());
             ps.setString(3, obj.getPassword());
             ps.setString(4, obj.getRole());
@@ -55,13 +55,32 @@ public class UserDAO implements CrudDAO<User> {
     }
 
     @Override
-    public void delete(String id) {
-
+    public void delete(String user_id) {
+        try{
+            PreparedStatement ps = con.prepareStatement("DELETE FROM user WHERE user_id = ?");
+            ps.setString(1, user_id);
+            ps.executeUpdate();
+        } catch(SQLException e) {
+            throw new RuntimeException("An error occurred when trying to update data from to the database.");
+        }
     }
 
     @Override
-    public User getById(String id) {
-        return null;
+    public User getByUserId(String user_id) {
+        User user = new user();
+
+        try{
+            PreparedStatement ps = con.prepareStatement("select * from users where id=?");
+            ps.setString(1,user_id);
+            ResultSet rs = ps.executeQuery();
+
+            while(rs.next()){
+                user=new User(rs.getString("user_id"), rs.getString("email"), rs.getString("password"),rs.getString("role"));
+            }
+        }catch(SQLException e){
+            throw new RuntimeException("An error occurred when trying to get data from the database.");
+        }
+        return user;
     }
 
     @Override
@@ -73,10 +92,10 @@ public class UserDAO implements CrudDAO<User> {
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
                 User user = new User();
-                user.setId(rs.getString("id"));
+                user.setUserId(rs.getString("user_id"));
                 user.setEmail(rs.getString("email"));
                 user.setPassword(rs.getString("password"));
-                user.setRole(rs.getString("id"));
+                user.setRole(rs.getString("role"));
 
                 users.add(user);
             }
